@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import useToken from '../../services/useToken';
 
@@ -14,7 +15,7 @@ const notifyError = (message) => {
 }
 
 async function loginUser(credentials) {    
-
+    
     return fetch('http://localhost:5100/users/login', {
             method: 'POST',
             headers: {
@@ -38,6 +39,7 @@ async function loginUser(credentials) {
 }
 
 export default function Login() {
+    const history = useHistory();
     const { setToken } = useToken();
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
@@ -52,6 +54,7 @@ export default function Login() {
         console.log(token);
         if (token) {
             setToken(token);
+            history.push('/sobre');
         }
     }
 
