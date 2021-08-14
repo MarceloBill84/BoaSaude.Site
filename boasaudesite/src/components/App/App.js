@@ -1,26 +1,15 @@
 import React from 'react';
-import { BrowserRouter, Redirect, Route, Router, Switch } from 'react-router-dom';
-import useToken from './useToken';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Login from '../Login/login.js';
-import Home from '../Home/home';
 import Sobre from '../Sobre/sobre';
 
-function App() {
-  const { token, setToken } = useToken();
-
-  if (!token) {
-    return <Login setToken={setToken} />
-  }
-
+export default function App() {
   return (
     <BrowserRouter>
         <Switch>
-            <Route path="/" exact={true} component={Home} />
+            <Route path="/" exact component={Login} />
             <Route path="/sobre" component={Sobre} />
         </Switch>
     </ BrowserRouter>
-
   )
 }
-
-export default App;
