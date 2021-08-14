@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
+import useToken from '../../services/useToken';
 
 toast.configure()
 
@@ -13,7 +14,8 @@ const notifyError = (message) => {
     toast.error(message, { position: toast.POSITION.TOP_CENTER, autoClose: 4000 })
 }
 
-async function loginUser(credentials) {
+async function loginUser(credentials) {    
+    
     return fetch('http://localhost:5100/users/login', {
             method: 'POST',
             headers: {
@@ -36,7 +38,9 @@ async function loginUser(credentials) {
         })
 }
 
-export default function Login({ setToken }) {
+export default function Login() {
+    const history = useHistory();
+    const { setToken } = useToken();
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
 
@@ -50,6 +54,7 @@ export default function Login({ setToken }) {
         console.log(token);
         if (token) {
             setToken(token);
+            history.push('/sobre');
         }
     }
 
@@ -73,13 +78,8 @@ export default function Login({ setToken }) {
                             <button type="submit" className="btn btn-primary">Entrar</button>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
     )
 }
-
-Login.propTypes = {
-    setToken: PropTypes.func.isRequired
-};
