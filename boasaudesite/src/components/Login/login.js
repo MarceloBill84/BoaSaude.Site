@@ -54,7 +54,7 @@ export default function Login() {
         console.log(token);
         if (token) {
             setToken(token);
-            history.push('/sobre');
+            history.push('/provider/menu');
         }
     }
 
