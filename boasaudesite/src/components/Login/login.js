@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import useToken from '../../services/useToken';
+import * as Constants from '../../constants';
 
 toast.configure()
 
@@ -16,7 +17,7 @@ const notifyError = (message) => {
 
 async function loginUser(credentials) {    
     
-    return fetch('http://localhost:5100/users/login', {
+    return fetch(Constants.ApiLogin + '/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
