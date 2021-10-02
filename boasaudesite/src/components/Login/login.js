@@ -44,13 +44,30 @@ export default function Login() {
     const { setToken } = useToken();
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getPosition);
+    }
+      
+    function getPosition(position) {
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+    }
 
     const handleSubmit = async e => {
         e.preventDefault();
+
         var request = {
             name: username,
-            password
+            password,
+            longitude,
+            latitude
         }
+
+        console.log(request);
+
         const token = await loginUser(request);
         console.log(token);
         if (token) {
