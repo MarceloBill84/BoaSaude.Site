@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import useToken from '../../services/useToken';
+import * as Constants from '../../constants';
 
 toast.configure()
 
@@ -16,7 +17,7 @@ const notifyError = (message) => {
 
 async function loginUser(credentials) {    
     
-    return fetch('http://localhost:5100/users/login', {
+    return fetch(Constants.ApiLogin + '/users/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -43,18 +44,35 @@ export default function Login() {
     const { setToken } = useToken();
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
+    
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(getPosition);
+    }
+      
+    function getPosition(position) {
+        setLatitude(position.coords.latitude);
+        setLongitude(position.coords.longitude);
+    }
 
     const handleSubmit = async e => {
         e.preventDefault();
+
         var request = {
             name: username,
-            password
+            password,
+            longitude,
+            latitude
         }
+
+        console.log(request);
+
         const token = await loginUser(request);
         console.log(token);
         if (token) {
             setToken(token);
-            history.push('/sobre');
+            history.push('/provider/menu');
         }
     }
 
